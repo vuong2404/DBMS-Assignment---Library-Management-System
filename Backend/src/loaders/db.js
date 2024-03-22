@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // const mysql = require("mysql2/promise");
 
 // let { env } = require("../config");
@@ -32,19 +31,3 @@ pool.connect((err) => {
 });
 
 module.exports = pool;
-=======
-const mysql = require('mysql2/promise');
- 
-let {env} = require("../config")
-
-const dbConfig= { 
-  host: env.DB_HOST,
-  user: env.DB_USER,
-  database: env.DB_DATABASE,
-  password: env.DB_PASSWORD
-}
-
-const pool = mysql.createPool(dbConfig);
- 
-module.exports = pool;
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
