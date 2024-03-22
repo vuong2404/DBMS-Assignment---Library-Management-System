@@ -4,16 +4,14 @@ import { FaCartShopping } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaDeleteLeft } from "react-icons/fa6";
 import "./Navbar.css";
-<<<<<<< HEAD
+
 import { NavLink, useNavigate } from "react-router-dom";
-=======
-import { NavLink } from "react-router-dom";
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
+
 import { MyContext } from "./Context/CounterContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
 import { FaRegUser } from "react-icons/fa";
-<<<<<<< HEAD
+
 import { useAuth } from "../AuthContext";
 const Navbar = () => {
   const [mnav, setMnav] = useState(false);
@@ -28,15 +26,7 @@ const Navbar = () => {
     handleLogout();
     navigate("/Login");
   };
-=======
 
-const Navbar = () => {
-  const [mnav, setMnav] = useState(false);
-  const { cartCounter } = MyContext();
-  const { loginWithRedirect, logout, isAuthenticated,user} = useAuth0();
-
-
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
   return (
     <>
       <div className="container-fluid bgColor border-bottom border-dark  shadow">
@@ -57,7 +47,6 @@ const Navbar = () => {
                 <NavLink to="/OurFood">Our Food</NavLink>
               </li>
 
-<<<<<<< HEAD
               {isAuthenticated ? (
                 <div className="d-flex userDiv">
                   <FaRegUser className="userIcon" />
@@ -68,41 +57,23 @@ const Navbar = () => {
                 <button
                   className="btn btn-dark mt-1 loginBtn rounded-pill ps-2"
                   onClick={() => onClicklogin2()}
-=======
-           { isAuthenticated?  <div className="d-flex userDiv">
-                   <FaRegUser className="userIcon"/>
-                   <h4 className="my-1 ms-1">{user.name}</h4>
-              </div>:null
-
-            }
-              {isAuthenticated ? (
-                <button
-                  className="btn btn-dark mt-1 loginBtn rounded-pill ps-2"
-                  onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
                 >
                   LOGOUT
                 </button>
               ) : (
                 <button
                   className="btn btn-dark mt-1 loginBtn rounded-pill ps-2"
-<<<<<<< HEAD
                   onClick={() => onClicklogin()}
-=======
-                  onClick={() => loginWithRedirect()}
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
                 >
                   LOGIN
                 </button>
               )}
-<<<<<<< HEAD
+
               <RxHamburgerMenu
                 className="threeLineIcon mt-3"
                 onClick={() => setMnav(!mnav)}
               />
-=======
-              <RxHamburgerMenu className="threeLineIcon mt-3" onClick={() => setMnav(!mnav)}/>
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
+
               <div>
                 <FaCartShopping className="CartIcon mt-3" />
                 <span className="cartCounter">{cartCounter}</span>

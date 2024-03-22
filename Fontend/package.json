@@ -13,10 +13,9 @@
     "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
-<<<<<<< HEAD
+
     "react-modal": "^3.16.1",
-=======
->>>>>>> d9f7b62d53dd44e4b7c2ad2994b21a74615245a0
+
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.30.2",
