@@ -4,10 +4,10 @@ const db = require("../loaders/db");
 
 exports.getAllBook = async (req, res, next) => {
   console.log("im here2");
-  // const result = await bookModel.getAllBook();
-  // res.status(200).send({
-  //   result,
-  // });
+  const result = await bookModel.getAllBook();
+  res.status(200).send({
+    result,
+  });
 
   BookModel.getAllBook((error, results) => {
     if (error) {
