@@ -3,24 +3,19 @@ const db = require("../loaders/db");
 // let bookModel = new BookModel();
 
 exports.getAllBook = async (req, res, next) => {
-  console.log("im here2");
-  const result = await bookModel.getAllBook();
-  res.status(200).send({
-    result,
-  });
-
-  BookModel.getAllBook((error, results) => {
+  const query = "SELECT * FROM Sach";
+  db.query(query, (error, results) => {
     if (error) {
-      console.error(error);
-      res.status(500).json({ message: "Đã có lỗi xảy ra" });
+      console.error("Error executing query:", error);
+      res.status(500).send("Internal Server Error");
     } else {
-      res.status(201).json(results);
+      res.json(results);
     }
   });
 };
 
 exports.getBookDetails = (req, res) => {
-  const MaSoSach = req.params.bookId;
+  const MaSoSach = "S001";
   const query = "SELECT * FROM Sach WHERE MaSoSach = ?";
   const params = [MaSoSach];
 
