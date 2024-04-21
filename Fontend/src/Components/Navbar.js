@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import FoodLogo from "./Images/FoodNetwrok.png";
-import { FaCartShopping } from "react-icons/fa6";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { FaDeleteLeft } from "react-icons/fa6";
-import "./Navbar.css";
+import React, { useEffect, useState } from 'react'
+import FoodLogo from './Images/FoodNetwrok.png'
+import { FaCartShopping } from 'react-icons/fa6'
+import { RxHamburgerMenu } from 'react-icons/rx'
+import { FaDeleteLeft } from 'react-icons/fa6'
+import './Navbar.css'
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from 'react-router-dom'
 
-import { MyContext } from "./Context/CounterContext";
-import { useAuth0 } from "@auth0/auth0-react";
-import { toast } from "react-toastify";
-import { FaRegUser } from "react-icons/fa";
+import { MyContext } from './Context/CounterContext'
+import { useAuth0 } from '@auth0/auth0-react'
+import { toast } from 'react-toastify'
+import { FaRegUser } from 'react-icons/fa'
 
-import { useAuth } from "../AuthContext";
+import { useAuth } from '../AuthContext'
 const Navbar = () => {
-  const [mnav, setMnav] = useState(false);
-  const { cartCounter } = MyContext();
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  const navigate = useNavigate();
-  const { handleLogout, isAdmin, userInfo, loggedIn } = useAuth();
+  const [mnav, setMnav] = useState(false)
+  const { cartCounter } = MyContext()
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0()
+  const navigate = useNavigate()
+  const { handleLogout, isAdmin, userInfo, loggedIn } = useAuth()
   const onClicklogin = () => {
-    navigate("/Login");
-  };
+    navigate('/Login')
+  }
   const onClicklogin2 = () => {
-    handleLogout();
-    navigate("/Login");
-  };
+    handleLogout()
+    navigate('/Login')
+  }
 
   return (
     <>
@@ -44,7 +44,7 @@ const Navbar = () => {
                 <NavLink to="/About">About us</NavLink>
               </li>
               <li className="my-3">
-                <NavLink to="/OurFood">Our Food</NavLink>
+                <NavLink to="/OurBook">Our Book</NavLink>
               </li>
 
               {isAuthenticated ? (
@@ -125,7 +125,7 @@ const Navbar = () => {
         </div>
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
