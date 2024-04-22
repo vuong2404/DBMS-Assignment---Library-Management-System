@@ -1,5 +1,5 @@
-import React from 'react'
-import './OurDelivery.css'
+import React from "react";
+import "./OurDelivery.css";
 
 const OurDelivery = () => {
   return (
@@ -16,7 +16,7 @@ const OurDelivery = () => {
           <div className="col-lg-5 d-flex justify-content-end my-2 p-2">
             <img
               src={
-                'https://divbyzero.com/wp-content/uploads/2024/01/best-personal-growth-books.jpg'
+                "https://divbyzero.com/wp-content/uploads/2024/01/best-personal-growth-books.jpg"
               }
               alt="TwoPhoneImage"
               className="ShoutImage"
@@ -29,7 +29,7 @@ const OurDelivery = () => {
             </h3>
             <h4
               className="text-center text-bold"
-              style={{ fontStyle: 'italic' }}
+              style={{ fontStyle: "italic" }}
             >
               Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế giới sẽ mở
               ra cho bạn
@@ -39,7 +39,7 @@ const OurDelivery = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default OurDelivery
+export default OurDelivery;

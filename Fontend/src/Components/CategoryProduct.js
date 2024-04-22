@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import './CategoryProduct.css'
+import React, { useEffect } from "react";
+import "./CategoryProduct.css";
 // import foods from './MyData/Data'
 // import FoodCategory from './FoodCategory'
 // import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CategoryProduct = () => {
   // console.log(foods);
@@ -43,13 +43,13 @@ const CategoryProduct = () => {
         },
       },
     ],
-  }
+  };
 
-  const notify = () => toast('Wow so easy!')
+  const notify = () => toast("Wow so easy!");
 
   useEffect(() => {
-    ;<ToastContainer />
-  }, [])
+    <ToastContainer />;
+  }, []);
 
   return (
     <>
@@ -61,7 +61,7 @@ const CategoryProduct = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CategoryProduct
+export default CategoryProduct;

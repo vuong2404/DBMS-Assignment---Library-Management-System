@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import FoodLogo from './Images/logo.png'
-import { FaCartShopping } from 'react-icons/fa6'
-import { RxHamburgerMenu } from 'react-icons/rx'
-import { FaDeleteLeft } from 'react-icons/fa6'
-import './Navbar.css'
+import React, { useEffect, useState } from "react";
+import FoodLogo from "./Images/logo.png";
+import { FaCartShopping } from "react-icons/fa6";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { FaDeleteLeft } from "react-icons/fa6";
+import "./Navbar.css";
 
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from "react-router-dom";
 
-import { MyContext } from './Context/CounterContext'
-import { useAuth0 } from '@auth0/auth0-react'
-import { toast } from 'react-toastify'
-import { FaRegUser } from 'react-icons/fa'
+import { MyContext } from "./Context/CounterContext";
+import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
+import { FaRegUser } from "react-icons/fa";
 
-import { useAuth } from '../AuthContext'
+import { useAuth } from "../AuthContext";
 const Navbar = () => {
-  const [mnav, setMnav] = useState(false)
-  const { cartCounter } = MyContext()
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0()
-  const navigate = useNavigate()
-  const { handleLogout, isAdmin, userInfo, loggedIn } = useAuth()
+  const [mnav, setMnav] = useState(false);
+  const { cartCounter } = MyContext();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const navigate = useNavigate();
+  const { handleLogout, isAdmin, userInfo, loggedIn } = useAuth();
   const onClicklogin = () => {
-    navigate('/Login')
-  }
+    navigate("/Login");
+  };
   const onClicklogin2 = () => {
-    handleLogout()
-    navigate('/Login')
-  }
+    handleLogout();
+    navigate("/Login");
+  };
 
   return (
     <>
@@ -38,13 +38,13 @@ const Navbar = () => {
           <div className="col-lg-7 col-7 Navbar-right">
             <ul className="d-flex justify-content-around align-items-center">
               <li className="my-3">
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/">Trang chủ</NavLink>
               </li>
               <li className="my-3">
-                <NavLink to="/About">About us</NavLink>
+                <NavLink to="/About">Về chúng tôi</NavLink>
               </li>
               <li className="my-3">
-                <NavLink to="/OurBook">Our Book</NavLink>
+                <NavLink to="/OurBook">Sách</NavLink>
               </li>
 
               {isAuthenticated ? (
@@ -58,14 +58,14 @@ const Navbar = () => {
                   className="btn btn-dark mt-1 loginBtn rounded-pill ps-2"
                   onClick={() => onClicklogin2()}
                 >
-                  LOGOUT
+                  Đăng xuất
                 </button>
               ) : (
                 <button
                   className="btn btn-dark mt-1 loginBtn rounded-pill ps-2"
                   onClick={() => onClicklogin()}
                 >
-                  LOGIN
+                  Đăng nhập
                 </button>
               )}
 
@@ -125,7 +125,7 @@ const Navbar = () => {
         </div>
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

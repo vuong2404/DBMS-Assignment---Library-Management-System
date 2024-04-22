@@ -1,13 +1,13 @@
-import React from 'react'
-import zomato from '../Components/Images/zomatoAboutImage.avif'
-import './About.css'
+import React from "react";
+import zomato from "../Components/Images/zomatoAboutImage.avif";
+import "./About.css";
 
 const About = () => {
   return (
     <>
       <div className="container-fluid">
         <div className="row d-flex justify-content-center">
-          <div className="col-lg-8  my-2 p-2" style={{ fontStyle: 'italic' }}>
+          <div className="col-lg-8  my-2 p-2" style={{ fontStyle: "italic" }}>
             <h2 className="text-bold">Chúng tôi là ai ?</h2>
             <p className="text-wrap">
               Chúng tôi là nhóm người đứng sau dự án BK Book, bao gồm các nhà
@@ -22,7 +22,7 @@ const About = () => {
 
       <div className="container-fluid">
         <div className="row d-flex justify-content-center">
-          <div className="col-lg-4 p-2" style={{ fontStyle: 'italic' }}>
+          <div className="col-lg-4 p-2" style={{ fontStyle: "italic" }}>
             <h1>Sứ mệnh của chúng tôi</h1>
             <p>
               Chúng tôi cam kết tạo ra một nền tảng thư viện trực tuyến đồng văn
@@ -39,14 +39,14 @@ const About = () => {
           <div className="col-lg-4 zomatoImage">
             <img
               src={
-                'https://assets-global.website-files.com/604a97c70aee09eed25ce991/61897a35583a9b51db018d3e_MartinPublicSeating-97560-Importance-School-Library-blogbanner1.jpg'
+                "https://assets-global.website-files.com/604a97c70aee09eed25ce991/61897a35583a9b51db018d3e_MartinPublicSeating-97560-Importance-School-Library-blogbanner1.jpg"
               }
             />
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default About
+export default About;
