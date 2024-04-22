@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import FoodLogo from './Images/FoodNetwrok.png'
+import FoodLogo from './Images/logo.png'
 import { FaCartShopping } from 'react-icons/fa6'
 import { RxHamburgerMenu } from 'react-icons/rx'
 import { FaDeleteLeft } from 'react-icons/fa6'

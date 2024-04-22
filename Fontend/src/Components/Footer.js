@@ -1,7 +1,7 @@
-import React from "react";
-import "./Footer.css";
-import { IoLocationOutline } from "react-icons/io5";
-import { FaRegCopyright } from "react-icons/fa";
+import React from 'react'
+import './Footer.css'
+import { IoLocationOutline } from 'react-icons/io5'
+import { FaRegCopyright } from 'react-icons/fa'
 
 const Footer = () => {
   return (
@@ -11,12 +11,12 @@ const Footer = () => {
           <div className="col-lg-3  my-3">
             <div className="brandLocation p-2 d-flex">
               <IoLocationOutline className="locationIcon text-white my-1" />
-              <h3 className="text-white my-1">The Menu</h3>
+              <h3 className="text-white my-1">BK HCM</h3>
             </div>
 
             <div className="d-flex">
               <FaRegCopyright className="copyright text-white my-1" />
-              <p className="text-white my-1">2023 Bundi Technologies pvt Ltd</p>
+              <p className="text-white my-1">Bản quyền thuộc về BK Book</p>
             </div>
           </div>
 
@@ -76,7 +76,7 @@ const Footer = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
