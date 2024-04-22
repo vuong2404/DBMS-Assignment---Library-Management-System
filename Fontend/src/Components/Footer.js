@@ -1,7 +1,7 @@
-import React from "react";
-import "./Footer.css";
-import { IoLocationOutline } from "react-icons/io5";
-import { FaRegCopyright } from "react-icons/fa";
+import React from 'react'
+import './Footer.css'
+import { IoLocationOutline } from 'react-icons/io5'
+import { FaRegCopyright } from 'react-icons/fa'
 
 const Footer = () => {
   return (
@@ -89,7 +89,7 @@ const Footer = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

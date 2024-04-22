@@ -12,22 +12,22 @@
 // const pool = mysql.createPool(dbConfig);
 
 // module.exports = pool;
-const mysql = require("mysql");
+const mysql = require('mysql')
 
 const pool = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "library",
+  host: 'localhost',
+  user: 'root',
+  database: 'library',
 
-  password: "Ngocquynguyen1",
-});
+  password: '10102003',
+})
 
 pool.connect((err) => {
   if (err) {
-    console.error("Lỗi kết nối MySQL:", err);
+    console.error('Lỗi kết nối MySQL:', err)
   } else {
-    console.log("Kết nối MySQL thành công");
+    console.log('Kết nối MySQL thành công')
   }
-});
+})
 
-module.exports = pool;
+module.exports = pool

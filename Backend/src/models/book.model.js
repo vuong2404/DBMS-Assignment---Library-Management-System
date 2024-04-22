@@ -1,4 +1,4 @@
-const pool = require("../loaders/db");
+const pool = require('../loaders/db')
 
 // class Book {
 //   async getAllBook(params) {
@@ -7,18 +7,19 @@ const pool = require("../loaders/db");
 //   }
 // }
 const getAllBook = (callback) => {
-  const sql = "SELECT * FROM sach";
+  var sql = 'SELECT * FROM sach'
+  console.log(sql)
   pool.query(sql, (error, results) => {
     if (error) {
-      console.error(error);
-      callback(error, null);
+      console.error(error)
+      callback(error, null)
     } else {
-      callback(null, results);
+      callback(null, results)
     }
-  });
-};
+  })
+}
 
-module.exports = { getAllBook };
+module.exports = { getAllBook }
 
 //   async create(newBook) {
 //     var query = `INSERT INTO BOOK(title, price, author) VALUES (?, ?, ?)`;
