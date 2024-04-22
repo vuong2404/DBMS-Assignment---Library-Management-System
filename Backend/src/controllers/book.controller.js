@@ -25,6 +25,36 @@ exports.getBookDetails = (req, res) => {
   });
 };
 
+exports.filterBooks = (req, res) => {
+  const selectedCategories = req.query.categories.split(","); // Split categories if they are sent as a comma-separated string
+  console.log("selectedCategories", selectedCategories);
+
+  // Generate a placeholder string for each category in the list
+  const placeholders = selectedCategories.map(() => "?").join(",");
+
+  // SQL query with IN clause and parameters
+  const query = `SELECT * FROM Sach JOIN DanhMuc ON Sach.DanhMuc = DanhMuc.MaSoDanhMuc WHERE DanhMuc.ten IN (${placeholders})`;
+  const params = selectedCategories;
+  console.log(params);
+
+  db.query(query, params, (error, results) => {
+    if (error) {
+      console.error("Error:", error);
+      res.status(500).json({ error: "An internal server error occurred" });
+    } else {
+      res.json(results);
+    }
+  });
+};
+
+exports.createNewBook = async (req, res, next) => {
+  const { title, price, author } = req.body;
+  const result = await bookModel.create({ title, price, author });
+  res.status(200).send({
+    result,
+  });
+};
+
 exports.createNewBook = async (req, res, next) => {
   const { title, price, author } = req.body;
   const result = await bookModel.create({ title, price, author });
@@ -54,12 +84,3 @@ exports.deleteBook = async (req, res, next) => {
     res.status(500).send({ error: "Internal server error" });
   }
 };
-
-// 1 cái là show danh sách book
-// Quý
-// 1 cái là nhấn vô book thì ra chi tiết
-// Quý
-// Cơ mà gộp 2 cái thành 1 đc k nhỉ, kiểu vẫn làm 1 api thôi, còn vấn đề nhấn vô hiện ra là fe xử lý
-// Quý
-// Trần Đại Quý
-// Vs tui k biết có cần thiết làm cái sreach k
