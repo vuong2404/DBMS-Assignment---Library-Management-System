@@ -19,21 +19,41 @@ import 'react-toastify/dist/ReactToastify.css'
 import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import { AuthProvider } from './AuthContext'
-
+import { adminRoutes } from "./routes"
+import { Fragment } from 'react'
 function App() {
   return (
     <>
       <BrowserRouter>
         <AuthProvider>
-          <Navbar />
+          {/* <Navbar /> */}
           <Routes>
             <Route path="/Register" element={<Register />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="/OurBook" element={<MainFood />} />
             <Route path="/About" element={<About />} />
+
+            {
+              adminRoutes.map(((item, index) => {
+                let Page = item.component;
+                let Layout = Fragment;
+                if (item.layout) {
+                  Layout = item.layout
+                }
+                return <Route
+                  key={index}
+                  path={item.path}
+                  element={
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  }
+                />
+              }))
+            }
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
           <ToastContainer />
         </AuthProvider>
       </BrowserRouter>
