@@ -7,11 +7,12 @@ const MainFood = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   // console.log(foodData);
   useEffect(() => {
-    fetch("http://localhost:3001/api/all")
+    fetch("http://localhost:3001/api/books/all")
       .then((response) => response.json())
-      .then((data) => setFoodData(data))
+      .then((data) => setFoodData(data.data))
       .catch((error) => console.error("Error fetching food data:", error));
   }, []);
+  console.log("fooddataa", foodData);
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     // console.log("value", value);
@@ -85,11 +86,11 @@ const MainFood = () => {
     if (selectedCategories.length === 0) {
       fetch("http://localhost:3001/api/all")
         .then((response) => response.json())
-        .then((data) => setFoodData(data))
+        .then((data) => setFoodData(data.data))
         .catch((error) => console.error("Error fetching food data:", error));
     } else {
       const params = new URLSearchParams({ categories: selectedCategories });
-      const url = `http://localhost:3001/api/filterbook?${params}`;
+      const url = `http://localhost:3001/api/books/filterbook?${params}`;
 
       fetch(url, {
         method: "GET",
