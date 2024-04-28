@@ -30,6 +30,7 @@ NgayTraSach date not null,
 Gia DECIMAL(10,2) not null,
 TinhTrangThanhToan varchar(20) not null,
 MaSoDocGia varchar(8),
+TinhTrang ENUM('DaDuyet', 'TuChoi') ,
 FOREIGN KEY (MaSoDocGia) REFERENCES DocGia(MaSoDocGia)
 );
 create table DanhMuc(
