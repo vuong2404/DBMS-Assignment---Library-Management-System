@@ -25,12 +25,12 @@ FOREIGN KEY (MaSoNhaQuanLy) REFERENCES TaiKhoan(MaSoTaiKhoan)
 create table DonMuonSach(
 MaDonMuon varchar(8) primary key, -- DM0001
 NgayTaoDon date not null,
-NgayChapNhan date not null,
+NgayQuyetDinh date,
+TrangThai enum("ChapNhan", "TuChoi", "DangCho"),
 NgayTraSach date not null,
 Gia DECIMAL(10,2) not null,
 TinhTrangThanhToan varchar(20) not null,
 MaSoDocGia varchar(8),
-TinhTrang ENUM('DaDuyet', 'TuChoi') ,
 FOREIGN KEY (MaSoDocGia) REFERENCES DocGia(MaSoDocGia)
 );
 create table DanhMuc(
@@ -83,6 +83,18 @@ foreign key (MaSoNhanXet) references NhanXet(MaSoNhanXet),
 foreign key (MaDocGia) references DocGia(MaSoDocGia),
 foreign key (MaSoSach) references Sach(MaSoSach)
 );
+
+-- Bổ sung
+CREATE TABLE SachTrongGioHang (
+	PRIMARY KEY (MaSoSach,MaSoDocGia),
+    MaSoSach VARCHAR(8),
+    MaSoDocGia VARCHAR(8) ,
+	FOREIGN KEY (MaSoSach) REFERENCES Sach(MaSoSach),
+    FOREIGN KEY (MaSoDocGia) REFERENCES TaiKhoan(MaSoTaiKhoan),
+    SoLuong int 
+);
+-- --------
+
 
 DELIMITER //
 CREATE PROCEDURE InsertTaiKhoan
@@ -392,14 +404,7 @@ CALL insertSach('Phụ nữ Việt Nam', 'Hội liên hiệp phụ nữ Việt N
 CALL insertSach('Học đàn piano', 'Brad Hill', 'Nhà Xuất Bản Hồng Đức', 5, 'HoatDong', 'Am Nhac','https://salt.tikicdn.com/cache/750x750/ts/product/7f/a6/b8/b0c80a5ffcea8221675b51f284984242.jpg.webp',' Cuốn sách trình bày chi tiết lịch sử ra đời của đàn Piano, cách phân biệt vạch nhịp, số nhịp, đếm nhịp, cách tập đàn một tay và hai tay. Sau mỗi bài học , sách còn đính kèm những bài luyện tập thiết thực dành cho những học viên không có thời giờ đến các trung tâm dạy nhạc. Có cuốn sách học đàn Piano bên cạnh , bạn có thể yên tâm tự học và tự tin trình diễn những bản nhạc từ đơn giản đến phức tạp của đàn Piano hay bất cứ loại nhạc cụ có bàn phím nào khác .');
 CALL insertSach('Kỹ thuật ghi âm', 'Phạm Xuân Ánh', 'Nhà Xuất Bản Dân Trí', 3, 'HoatDong', 'Am Nhac','https://salt.tikicdn.com/cache/750x750/ts/product/a4/41/74/bbe211b122a909154f402e361deab6ba.jpg.webp','Ngày nay, thế giới có rất nhiều sách và tài liệu trong lĩnh vực xử lý âm thanh và âm nhạc, mỗi cuốn sách đều có những khía cạnh riêng và đem lại những giá trị khác nhau. Thế nhưng ở Việt Nam lại chưa từng có một tài liệu cụ thể hay thống nhất nào về lĩnh vực này. Một số cuốn sách nổi tiếng trên thế giới chủ yếu cung cấp kiến thức dựa trên âm thanh của nhạc cụ, trong khi những cuốn sách của các nghệ sĩ trẻ lại mang những kiến thức mới trên nền xử lý âm thanh hiện đại.');
 
-
-
-
-
-
-
-
-INSERT INTO DonMuonSach (MaDonMuon, NgayTaoDon, NgayChapNhan, NgayTraSach, Gia, TinhTrangThanhToan, MaSoDocGia)
+INSERT INTO DonMuonSach (MaDonMuon, NgayTaoDon, NgayQuyetDinh, NgayTraSach, Gia, TinhTrangThanhToan, MaSoDocGia)
 VALUES
 ('DH004', '2024-02-01', '2024-02-02', '2024-02-10', 50.00, 'Thanh Cong', 'TK0001');
 
@@ -408,3 +413,126 @@ VALUES
 ('DH004', 'S001', 5);
 select * from TaiKhoan;
 SELECT * FROM Sach join DanhMuc on sach.DanhMuc=DanhMuc.MaSoDanhMuc where DanhMuc.ten in ("Ngoai Ngu");
+
+
+DELIMITER //
+
+CREATE FUNCTION TinhGiaTien(ngay_muon DATE, ngay_tra DATE, so_luong INT) RETURNS DECIMAL(10, 2) deterministic
+BEGIN
+    DECLARE gia_tien DECIMAL(10, 2);
+    DECLARE so_ngay_muon INT;
+
+    -- Thêm câu lệnh SET để khởi tạo giá trị của biến gia_tien
+    SET gia_tien = 0.0;
+
+    SET so_ngay_muon = DATEDIFF(ngay_tra, ngay_muon);
+    IF so_ngay_muon <= 0 THEN
+        RETURN 0.0;
+    END IF;
+
+    -- Tính giá tiền dựa trên số ngày mượn, số lượng sách và giá tiền mỗi ngày (mặc định là 1000)
+    SET gia_tien = so_ngay_muon * so_luong * 1000.00;
+
+    RETURN gia_tien;
+END //
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS insertDonMuonSach;
+ DELIMITER //
+Create   procedure  insertDonMuonSach 
+(
+    p_NgayTraSach date,
+    p_MaSoDocGia Varchar(8),
+    p_DS_SachMuon JSON
+)
+BEGIN
+	DECLARE nextID INT;
+	DECLARE new_MaDonMuon VARCHAR(10);
+	DECLARE i INT DEFAULT 0;
+	DECLARE masach_val VarChar(8);
+	DECLARE soluong_val INT;
+	DECLARE num_items INT;
+	DECLARE tong_so_luong  INT ;
+	DECLARE gia_tien DECIMAL(10,2) ;  
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		ROLLBACK;
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error occurred during transaction';
+	END;
+
+	START TRANSACTION;
+		SELECT COALESCE(MAX(CAST(SUBSTRING(MaDonMuon, 3, LENGTH(MaDonMuon) - 2) AS SIGNED)), 0) + 1
+		INTO nextID
+		FROM DonMuonSach;
+
+		SET new_MaDonMuon = CONCAT('DH', LPAD(nextID, 2, '0'));
+		INSERT INTO DonMuonSach (MaDonMuon, NgayTaoDon, NgayQuyetDinh,TrangThai, NgayTraSach, Gia, TinhTrangThanhToan, MaSoDocGia)
+		VALUES (new_MaDonMuon, CURDATE(), NULL,"DangCho", p_NgayTraSach, 0, "Thanh Cong", p_MaSoDocGia) ;
+		
+        -- Thêm sách vào đơn mượn sách  
+        SET i  = 0 ;
+        SET num_items = JSON_LENGTH(p_DS_SachMuon);
+        SET tong_so_luong = 0 ;
+        WHILE i < num_items DO
+			SET masach_val = JSON_UNQUOTE(JSON_EXTRACT(p_DS_SachMuon, CONCAT('$[', i, '].MaSoSach')));
+			SET soluong_val = CAST(JSON_EXTRACT(p_DS_SachMuon, CONCAT('$[', i, '].SoLuong')) AS UNSIGNED);
+			INSERT INTO sachmuon(MaDonMuonSach, MaSoSach, SoLuong)
+			VALUES (new_MaDonMuon, masach_val, soluong_val);
+            
+            SET tong_so_luong = tong_so_luong + soluong_val ;
+			SET i = i + 1;
+		END WHILE;
+	
+        -- Cập nhật giá tiền 
+        SET gia_tien = TinhGiaTien(curdate(), p_NgayTraSach, tong_so_luong) ;
+		UPDATE DonMuonSach 
+		SET Gia = gia_tien
+		WHERE MaDonMuon = new_MaDonMuon;
+        
+        
+     COMMIT;
+END //
+DELIMITER ;
+
+CALL insertDonMuonSach('2024-04-29', 'TK0001', '[{"MaSoSach": "S001", "SoLuong": 100 }]');
+
+DROP PROCEDURE IF EXISTS ThemSachVaoGioHang;
+ DELIMITER //
+CREATE PROCEDURE ThemSachVaoGioHang(
+	p_MaSoDocGia varchar(8),
+    p_MaSoSach varchar(8),
+    p_SoLuong INT
+)
+BEGIN
+    DECLARE i INT DEFAULT 0;
+	DECLARE sach_count INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error occurred during transaction';
+	END;
+
+	START TRANSACTION;
+		SELECT COUNT(*) INTO sach_count
+		FROM SachTrongGioHang s
+		WHERE MaSoDocGia = p_MaSoDocGia AND s.MaSoSach = p_MaSoSach ;
+		
+		IF sach_count > 0 THEN
+			UPDATE SachTrongGioHang s  
+			SET SoLuong = s.SoLuong + p_SoLuong 
+			WHERE MaSoDocGia = p_MaSoDocGia AND s.MaSoSach = p_MaSoSach ;
+		ELSE 
+			INSERT INTO SachtrongGioHang(MaSoSach, MaSoDocGia, SoLuong) 
+			VALUES(p_MaSoSach, p_MaSoDocGia, p_SoLuong) ;
+		END IF;
+    COMMIT ;
+END //
+DELIMITER ;
+
+SELECT * FROM DonMuonSach;
+CALL ThemSachVaoGioHang("TK0001", "S001", 100) ;
+
+
+
+Select * from SachTrongGioHang stgh JOIN Sach s On stgh.MaSoSach = s.MaSoSach  Where MaSoDocGia = "TK0001" ;
