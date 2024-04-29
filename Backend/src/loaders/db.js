@@ -3,10 +3,10 @@
 let { env } = require("../config");
 
 const dbConfig = {
-  host: "localhost",
-  user: "root",
-  database: "library",
-  password: "Ngocquynguyen1",
+  host: env.DB_HOST,
+  user:  env.DB_USER,
+  database: env.DB_DATABASE,
+  password: env.DB_PASSWORD,
 };
 
 // const pool = mysql.createPool(dbConfig);
