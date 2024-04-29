@@ -38,6 +38,7 @@ const authRoutes = require("./routes/auth.router");
 const adminAuthRoutes = require("./routes/adminAuth.router");
 const bookRoutes = require("./routes/book.router");
 const userRouter = require("./routes/user.router");
+const allRouter = require("./routes");
 
 const startServer = () => {
     const app = express();
@@ -47,23 +48,26 @@ const startServer = () => {
     try {
         app.use("/api", authRoutes);
         app.use("/api", adminAuthRoutes);
-        app.use("/api/books", bookRoutes);
-        app.use("/api/users", userRouter);
-        
+        // app.use("/api/books", bookRoutes);
+        // app.use("/api/users", userRouter);
+        app.use("/api", allRouter)
+
         app._router.all(
             "*",
             (req, res, next) => {
-                let err = new NotFoundError("API NOT FOUND");
-                response.status(404).send({
+                res.status(404).send({
                     message: "API NOT FOUND"
                 });
             }
         );
         app.use((err, req, res, next) =>
-            // errorHandler(err, req, res, next)
+        // errorHandler(err, req, res, next)
+        {
+            console.log(err)
             res.status(500).send({
                 message: "Intenal Server Error"
             })
+        }
         );
 
 

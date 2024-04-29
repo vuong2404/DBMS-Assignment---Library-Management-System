@@ -1,16 +1,16 @@
 const { parseRequestQueries } = require('../helper')
 const pool = require('../loaders/db')
 
-class BookModel {
-    allowFields = ["MaSoSach", "TenSach", "TacGia", "NhaPhatHanh", "SoLuong", "SoLuongConLai", "DanhMuc", "TrangThai", "MoTa"]
-    getAllBook = (requestQuery = {}, callback) => {
+class BorrowRequestModel {
+    allowFields = ["MaDonMuon", "NgayTaoDon", "NgayQuyetDinh", "TrangThai", "NgayTraSach", "Gia"]
+    getAll = (requestQuery = {}, callback) => {
         const options = parseRequestQueries(requestQuery, this.allowFields)
         console.log(requestQuery, options)
         const whereClause = options.filter.placeholders.length > 0 ? " WHERE " + options.filter.placeholders.join("AND") : ""
         const sortClause = ` ORDER BY ${options.sort.by} ${options.sort.order === "ASC" ? "ASC" : "DESC"} `
         const paginateClause = " LIMIT ? OFFSET ?"
 
-        const sql = 'SELECT *, d.Ten as TenDanhMuc, COUNT(*) OVER() as totalCount FROM sach s JOIN DanhMuc d ON s.DanhMuc = d.MaSoDanhMuc ' + whereClause + sortClause + paginateClause
+        const sql = 'SELECT *, COUNT(*) OVER() as totalCount FROM DonMuonSach ' + whereClause + sortClause + paginateClause
         const params = [...options.filter.params, options.paginate.limit, options.paginate.offset]
         console.log(sql, params)
         pool.query(sql, params, (error, result) => {
@@ -30,10 +30,11 @@ class BookModel {
         })
     }
 
-    create(newBook, callback) {
-        const { TenSach, TacGia, NhaPhatHanh, SoLuong, TrangThai, TenDanhMuc, Mota } = newBook
-        const query = "CALL insertSach(?,?,?,?,?,?,?,?)"
-        const params = [TenSach, TacGia, NhaPhatHanh, SoLuong, TrangThai, TenDanhMuc,null, Mota]
+    create(data, callback) {
+        const { MaSoDocGia, NgayTraSach, SachMuon } = data
+        console.log("Create DonMuonSach with parameters: ", MaSoDocGia, NgayTraSach, SachMuon)
+        const query = "CALL insertDonMuonSach(?,?,?)"
+        const params = [NgayTraSach, MaSoDocGia, JSON.stringify(SachMuon)]
         pool.query(query, params, callback)
     }
 
@@ -62,14 +63,14 @@ class BookModel {
         pool.query(query, params, callback)
     }
 
-    delete(id, callback) {
-        const query = "CALL deleteSach(?)"
-        const params = [id]
-        pool.query(query, params, callback)
-    }
+    // delete(id, callback) {
+    //     const query = "CALL deleteSach(?)"
+    //     const params = [id]
+    //     pool.query(query, params, callback)
+    // }
 }
 
-module.exports = BookModel
+module.exports = BorrowRequestModel ;
 
 
 // module.exports = Book;
