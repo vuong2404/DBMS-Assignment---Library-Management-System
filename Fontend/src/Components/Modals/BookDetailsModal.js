@@ -71,7 +71,7 @@ export const BookDetailModal = ({values, ...props}) => {
                             initialValue={values.TenSach} 
                             required rules={[{ required: true, message: 'Chưa nhập tên sách!' }]}
                         >
-                            {editmode  ? <Input className="w-100" placeholder='Group name' disabled/>:<b>{values.TenSach}</b>}
+                            {editmode  ? <Input className="w-100" placeholder='Group name'/>:<b>{values.TenSach}</b>}
                         </Form.Item>
 
                         <Form.Item 
