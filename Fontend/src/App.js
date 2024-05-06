@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import { AuthProvider } from "./AuthContext";
-import { adminRoutes } from "./routes";
+import { adminRoutes, customerRoutes } from "./routes";
 import { Fragment } from "react";
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/OurBook" element={<MainFood />} />
             <Route path="/About" element={<About />} />
-            {adminRoutes.map((item, index) => {
+            {[...adminRoutes, ...customerRoutes].map((item, index) => {
               let Page = item.component;
               let Layout = Fragment;
               if (item.layout) {

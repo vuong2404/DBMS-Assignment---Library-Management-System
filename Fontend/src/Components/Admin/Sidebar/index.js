@@ -46,7 +46,7 @@ function Sidebar() {
 
             {
               title: "Quản lý đơn mượn sách",
-              itemId: "/admin/book-requests",
+              itemId: '/admin/borrow-requests',
               // you can use your own custom Icon component as well
               // icon is optional
               elemBefore: () => (
