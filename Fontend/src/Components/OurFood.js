@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "./OurFood.css";
 import { MyContext } from "./Context/CounterContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Button, Space } from "antd";
+import { toast } from "react-toastify";
 
 const OurFood = ({
   MaSoSach,
@@ -14,14 +18,46 @@ const OurFood = ({
   TacGia,
   TenSach,
 }) => {
-  const { handleIncrease } = MyContext();
+  // const { handleIncrease } = MyContext();
   const [showDetail, setShowDetail] = useState(false);
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const {handleIncrease} = MyContext()
 
   const toggleDetail = () => {
     setShowDetail(!showDetail);
   };
 
-  return (
+  const  handleAddtoCart = async (MaSoSach) => {
+    const userData = JSON.parse(localStorage.getItem("userData"))
+    console.log(userData)
+    if (!userData) {
+      navigate("/login")
+      return ;
+    }
+
+    setLoading(true)
+    try {
+      const userId = userData.id
+      const result = await axios({
+        method: "POST", 
+        url: `http://localhost:3001/api/users/${userId}/carts`,
+        data: {MaSoSach}
+      })
+
+      if (result.status === 200) {
+        const new_total_cart_items = result.data.total_cart_items
+        handleIncrease(new_total_cart_items)
+        toast.success("Thêm sách vào giỏ hàng thành công")
+      }
+      console.log(result)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+    }
+  }
+
+  return (  
     <>
       <div className="row">
         <div
@@ -54,14 +90,14 @@ const OurFood = ({
             >
               Số lượng: {SoLuong}
             </h4>
-            <div className="button-group">
-              <button className="btn btn-dark mr-1" onClick={handleIncrease}>
-                Add to cart
-              </button>
-              <button className="btn btn-info ml-1" onClick={toggleDetail}>
-                Detail
-              </button>
-            </div>
+            <Space>
+              <Button type="primary" onClick={() => handleAddtoCart(MaSoSach)}>
+                Thêm vào giỏ hàng
+              </Button>
+              <Button  onClick={toggleDetail}>
+               {!showDetail ? "Xem chi tiết": "Ẩn chi tiết"}
+              </Button>
+            </Space>
           </div>
         </div>
 
